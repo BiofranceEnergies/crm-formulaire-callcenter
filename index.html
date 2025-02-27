@@ -86,6 +86,7 @@
             min-width: 120px;
         }
     </style>
+    <!-- Script Google Maps Autocomplete -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPz59eSA-UkT2AzlQzXslwzt8V5uftFzM&libraries=places"></script>
     <script>
         function initAutocomplete() {
@@ -116,7 +117,8 @@
     <div class="container">
         <h1>CRM - Photovoltaïque</h1>
 
-        <form>
+        <!-- Ajout de id="crm-form" -->
+        <form id="crm-form">
             <!-- CLIENT -->
             <div class="section">
                 <h2>Client</h2>
@@ -139,13 +141,15 @@
             <div class="section">
                 <h2>Logement</h2>
                 <div class="form-row">
-                    <div class="form-group"><label>Propriétaire</label>
+                    <div class="form-group">
+                        <label>Propriétaire</label>
                         <select name="proprietaire">
                             <option>Oui</option>
                             <option>Non</option>
                         </select>
                     </div>
-                    <div class="form-group"><label>Occupant / Bailleur / Sci</label>
+                    <div class="form-group">
+                        <label>Occupant / Bailleur / Sci</label>
                         <select name="occupant">
                             <option value="occupant">Occupant</option>
                             <option value="bailleur">Bailleur</option>
@@ -173,16 +177,24 @@
                     <div class="form-group"><label>Facture annuelle Elec (€)</label><input type="number" name="facture_elec"></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label>Monophasé ou triphasé</label>
+                    <div class="form-group">
+                        <label>Monophasé ou triphasé</label>
                         <select name="phase">
                             <option value="monophase">Monophasé</option>
                             <option value="triphase">Triphasé</option>
                         </select>
                     </div>
-                    <div class="form-group"><label>Linky</label><select name="linky"><option>Oui</option><option>Non</option></select></div>
+                    <div class="form-group">
+                        <label>Linky</label>
+                        <select name="linky">
+                            <option>Oui</option>
+                            <option>Non</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label>Type toiture</label>
+                    <div class="form-group">
+                        <label>Type toiture</label>
                         <select name="toiture">
                             <option value="tuile">Tuile</option>
                             <option value="ardoise">Ardoise</option>
@@ -194,7 +206,8 @@
                             <option value="chaume">Chaume</option>
                         </select>
                     </div>
-                    <div class="form-group"><label>Orientation toiture</label>
+                    <div class="form-group">
+                        <label>Orientation toiture</label>
                         <select name="orientation">
                             <option value="sud">Sud</option>
                             <option value="sud_ouest">Sud-Ouest</option>
@@ -234,10 +247,12 @@
             <div class="section">
                 <h2>Financement</h2>
                 <div class="form-row">
-                    <div class="form-group"><label>Situation Monsieur</label>
+                    <div class="form-group">
+                        <label>Situation Monsieur</label>
                         <select name="situation_mr">
                             <option value="cdi">CDI</option>
                             <option value="cdd">CDD</option>
+                            <option value="interimaire">Interimaire</option>
                             <option value="retraite">Retraité</option>
                             <option value="sans_emploi">Sans emploi</option>
                             <option value="auto_entrepreneur">Auto-entrepreneur</option>
@@ -246,10 +261,12 @@
                             <option value="fonctionnaire">Fonctionnaire</option>
                         </select>
                     </div>
-                    <div class="form-group"><label>Situation Madame</label>
+                    <div class="form-group">
+                        <label>Situation Madame</label>
                         <select name="situation_mme">
                             <option value="cdi">CDI</option>
                             <option value="cdd">CDD</option>
+                            <option value="interimaire">Interimaire</option>
                             <option value="retraite">Retraité</option>
                             <option value="sans_emploi">Sans emploi</option>
                             <option value="auto_entrepreneur">Auto-entrepreneur</option>
@@ -260,12 +277,27 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label>Salaire couple (€)</label><input type="number" name="salaire_couple"></div>
-                    <div class="form-group"><label>Nombre d'enfants à charge</label><input type="number" name="nb_enfants"></div>
+                    <div class="form-group">
+                        <label>Salaire couple (€)</label>
+                        <input type="number" name="salaire_couple">
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre d'enfants à charge</label>
+                        <input type="number" name="nb_enfants">
+                    </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label>Crédit en cours</label><select name="credit_cours"><option>Oui</option><option>Non</option></select></div>
-                    <div class="form-group"><label>Montants mensualité des crédits (€)</label><input type="number" name="mensualite_credit"></div>
+                    <div class="form-group">
+                        <label>Crédit en cours</label>
+                        <select name="credit_cours">
+                            <option>Oui</option>
+                            <option>Non</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Montants mensualité des crédits (€)</label>
+                        <input type="number" name="mensualite_credit">
+                    </div>
                 </div>
             </div>
 
@@ -318,16 +350,102 @@
                         <option value="17:45">17:45</option>
                     </select>
                 </div>
+                <!-- NOUVELLES CHECKBOXES SOUS L’HEURE -->
+                <div class="form-group checkbox-group">
+                    <label><input type="checkbox" name="presence_rdv" value="homme_seul"> Homme seul</label>
+<label><input type="checkbox" name="presence_rdv" value="femme_seule"> Femme seule</label>
+<label><input type="checkbox" name="presence_rdv" value="couple_present"> Le couple présent</label>
+
+                </div>
             </div>
 
             <!-- COMMENTAIRES -->
             <div class="section">
                 <h2>Commentaires</h2>
-                <div class="form-group"><label>Commentaires</label><textarea name="commentaires" rows="5"></textarea></div>
+                <div class="form-group">
+                    <label>Commentaires</label>
+                    <textarea name="commentaires" rows="5"></textarea>
+                </div>
             </div>
 
             <button type="submit" class="submit-btn">Enregistrer</button>
         </form>
     </div>
+
+    <!-- SCRIPT D'ENVOI DES DONNÉES VERS GOOGLE SHEETS -->
+    <script>
+      const form = document.getElementById("crm-form");
+
+      form.addEventListener("submit", async function(event) {
+        event.preventDefault(); // Empêche le rechargement de la page
+
+        // 1) Récupération des champs "simples"
+        const payload = {
+          nom: form.elements["nom"].value,
+          prenom: form.elements["prenom"].value,
+          telephone: form.elements["telephone"].value,
+          mail: form.elements["mail"].value,
+          adresse: form.elements["adresse"].value,
+          code_postal: form.elements["code_postal"].value,
+          ville: form.elements["ville"].value,
+          proprietaire: form.elements["proprietaire"].value,
+          occupant: form.elements["occupant"].value,
+          surface: form.elements["surface"].value,
+          facture_gaz: form.elements["facture_gaz"].value,
+          facture_fioul: form.elements["facture_fioul"].value,
+          facture_elec: form.elements["facture_elec"].value,
+          phase: form.elements["phase"].value,
+          linky: form.elements["linky"].value,
+          toiture: form.elements["toiture"].value,
+          orientation: form.elements["orientation"].value,
+          zone_bf: form.elements["zone_bf"].value,
+          rfr: form.elements["rfr"].value,
+          nb_foyer: form.elements["nb_foyer"].value,
+          situation_mr: form.elements["situation_mr"].value,
+          situation_mme: form.elements["situation_mme"].value,
+          salaire_couple: form.elements["salaire_couple"].value,
+          nb_enfants: form.elements["nb_enfants"].value,
+          credit_cours: form.elements["credit_cours"].value,
+          mensualite_credit: form.elements["mensualite_credit"].value,
+          date_rdv: form.elements["date_rdv"].value,
+          heure_rdv: form.elements["heure_rdv"].value,
+          commentaires: form.elements["commentaires"].value
+        };
+
+        // 2) Récupération des checkboxes "presence_rdv"
+        const presenceRdvElements = document.querySelectorAll('input[name="presence_rdv"]:checked');
+        const presence_rdv_values = [];
+        presenceRdvElements.forEach((checkbox) => {
+          presence_rdv_values.push(checkbox.value);
+        });
+        payload.presence_rdv = presence_rdv_values;
+
+        // 3) URL DE TON SCRIPT (publié en "Tout le monde, même anonyme")
+        const scriptURL = "https://script.google.com/macros/s/AKfycbz1hzYAyOYw1k2F_YV7TXDbOlkMuLAHhWOq6uvqs3K12BCaEJOdfYkn93tTRK_gXrEvnA/exec";
+
+        try {
+          // 4) Envoi en mode "no-cors"
+          await fetch(scriptURL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+          });
+
+          // Avec no-cors, on n'a pas accès à la réponse
+          // On se contente d'un message local
+          alert("Données envoyées ! (Pas de réponse serveur, vérifiez le Sheet)");
+
+          // Reset form si tu veux
+          form.reset();
+
+        } catch (error) {
+          // Si l'appel échoue vraiment (ex: URL introuvable)
+          alert("Erreur lors de l'envoi : " + error);
+        }
+      });
+    </script>
 </body>
 </html>
