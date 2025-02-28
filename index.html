@@ -308,6 +308,7 @@
                     <label>Date et Heure du RDV</label>
                     <input type="date" name="date_rdv">
                     <select name="heure_rdv">
+                        <option value="" disabled selected>Sélectionnez une heure</option>
                         <option value="08:00">08:00</option>
                         <option value="08:15">08:15</option>
                         <option value="08:30">08:30</option>
@@ -414,7 +415,7 @@
           nb_enfants: form.elements["nb_enfants"].value,
           credit_cours: form.elements["credit_cours"].value,
           mensualite_credit: form.elements["mensualite_credit"].value,
-          date_rdv: form.elements["date_rdv"].value,
+          date_rdv: form.elements["date_rdv"].value.trim() === "" ? "LEAD" : form.elements["date_rdv"].value,
           heure_rdv: form.elements["heure_rdv"].value,
           commentaires: form.elements["commentaires"].value
         };
