@@ -117,7 +117,7 @@
     <div class="container">
         <h1>CRM - Photovoltaïque</h1>
 
-        <!-- Ajout de id="crm-form" -->
+        <!-- Formulaire CRM -->
         <form id="crm-form">
             <!-- CLIENT -->
             <div class="section">
@@ -227,9 +227,9 @@
                         <option>Non</option>
                     </select>
                 </div>
-                <!-- NOUVEAUX CHAMPS : MPR en tant que titre, puis RFR et Nombre de personnes -->
+                <!-- Nouvelles données MPR -->
                 <div class="form-group">
-                    <label>MPR</label> <!-- pas de champ de saisie -->
+                    <label>MPR</label> <!-- Pas de champ de saisie -->
                 </div>
                 <div class="form-row">
                     <div class="form-group">
@@ -358,12 +358,10 @@
                         <option value="19:30">19:30</option>
                     </select>
                 </div>
-                <!-- NOUVELLES CHECKBOXES SOUS L’HEURE -->
                 <div class="form-group checkbox-group">
                     <label><input type="checkbox" name="presence_rdv" value="homme_seul"> Homme seul</label>
-<label><input type="checkbox" name="presence_rdv" value="femme_seule"> Femme seule</label>
-<label><input type="checkbox" name="presence_rdv" value="couple_present"> Le couple présent</label>
-
+                    <label><input type="checkbox" name="presence_rdv" value="femme_seule"> Femme seule</label>
+                    <label><input type="checkbox" name="presence_rdv" value="couple_present"> Le couple présent</label>
                 </div>
             </div>
 
@@ -387,7 +385,7 @@
       form.addEventListener("submit", async function(event) {
         event.preventDefault(); // Empêche le rechargement de la page
 
-        // 1) Récupération des champs "simples"
+        // 1) Récupération des champs simples
         const payload = {
           nom: form.elements["nom"].value,
           prenom: form.elements["prenom"].value,
@@ -420,7 +418,7 @@
           commentaires: form.elements["commentaires"].value
         };
 
-        // 2) Récupération des checkboxes "presence_rdv"
+        // 2) Récupération des valeurs des checkboxes "presence_rdv"
         const presenceRdvElements = document.querySelectorAll('input[name="presence_rdv"]:checked');
         const presence_rdv_values = [];
         presenceRdvElements.forEach((checkbox) => {
@@ -428,11 +426,19 @@
         });
         payload.presence_rdv = presence_rdv_values;
 
-        // 3) URL DE TON SCRIPT (publié en "Tout le monde, même anonyme")
+        // 3) Récupération des valeurs des checkboxes "chauffage"
+        const chauffageElements = document.querySelectorAll('input[name="chauffage"]:checked');
+        const chauffage_values = [];
+        chauffageElements.forEach((checkbox) => {
+          chauffage_values.push(checkbox.value);
+        });
+        payload.chauffage = chauffage_values;
+
+        // 4) URL de votre script Apps Script (publié en "Tout le monde, même anonyme")
         const scriptURL = "https://script.google.com/macros/s/AKfycbz1hzYAyOYw1k2F_YV7TXDbOlkMuLAHhWOq6uvqs3K12BCaEJOdfYkn93tTRK_gXrEvnA/exec";
 
         try {
-          // 4) Envoi en mode "no-cors"
+          // Envoi en mode "no-cors"
           await fetch(scriptURL, {
             method: "POST",
             mode: "no-cors",
@@ -442,15 +448,10 @@
             body: JSON.stringify(payload)
           });
 
-          // Avec no-cors, on n'a pas accès à la réponse
-          // On se contente d'un message local
+          // Avec no-cors, on n'a pas accès à la réponse, on affiche un message localement
           alert("Données envoyées !");
-
-          // Reset form si tu veux
           form.reset();
-
         } catch (error) {
-          // Si l'appel échoue vraiment (ex: URL introuvable)
           alert("Erreur lors de l'envoi : " + error);
         }
       });
