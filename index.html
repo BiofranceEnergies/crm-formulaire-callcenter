@@ -1,460 +1,471 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRM Photovoltaïque</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 900px;
-            margin: auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            background-color: #f0f0f0;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-        }
-        .form-row {
-            display: flex;
-            gap: 20px;
-        }
-        .form-row .form-group {
-            flex: 1;
-        }
-        label {
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input, select, textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-        textarea {
-            resize: vertical;
-        }
-        .checkbox-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
-        }
-        .checkbox-group label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: normal;
-        }
-        .submit-btn {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-        }
-        .submit-btn:hover {
-            background-color: #218838;
-        }
-        .datetime-group {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .datetime-group input,
-        .datetime-group select {
-            flex: 1;
-            min-width: 120px;
-        }
-    </style>
-    <!-- Script Google Maps Autocomplete -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPz59eSA-UkT2AzlQzXslwzt8V5uftFzM&libraries=places"></script>
-    <script>
-        function initAutocomplete() {
-            const input = document.getElementById("adresse");
-            const autocomplete = new google.maps.places.Autocomplete(input, {
-                types: ["geocode"],
-                componentRestrictions: { country: "fr" }
-            });
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRM Photovoltaïque</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      background-color: #f0f0f0;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+    }
+    .form-row {
+      display: flex;
+      gap: 20px;
+    }
+    .form-row .form-group {
+      flex: 1;
+    }
+    label {
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    textarea {
+      resize: vertical;
+    }
+    .checkbox-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+    }
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: normal;
+    }
+    .submit-btn {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+    }
+    .submit-btn:hover {
+      background-color: #218838;
+    }
+    .datetime-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .datetime-group input,
+    .datetime-group select {
+      flex: 1;
+      min-width: 120px;
+    }
+  </style>
+  <!-- Script Google Maps Autocomplete -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPz59eSA-UkT2AzlQzXslwzt8V5uftFzM&libraries=places"></script>
+  <script>
+    function initAutocomplete() {
+      const input = document.getElementById("adresse");
+      const autocomplete = new google.maps.places.Autocomplete(input, {
+        types: ["geocode"],
+        componentRestrictions: { country: "fr" }
+      });
 
-            autocomplete.addListener("place_changed", function() {
-                const place = autocomplete.getPlace();
-                if (place.address_components) {
-                    const postalCode = place.address_components.find(c => c.types.includes("postal_code"));
-                    const city = place.address_components.find(c => c.types.includes("locality"));
-                    document.getElementById("code_postal").value = postalCode ? postalCode.long_name : "";
-                    document.getElementById("ville").value = city ? city.long_name : "";
-                    document.getElementById("adresse").value = place.name || place.formatted_address;
-                }
-            });
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            initAutocomplete();
-        });
-    </script>
-</head>
-<body>
-    <div class="container">
-        <h1>CRM - Photovoltaïque</h1>
-
-        <!-- Formulaire CRM -->
-        <form id="crm-form">
-            <!-- CLIENT -->
-            <div class="section">
-                <h2>Client</h2>
-                <div class="form-row">
-                    <div class="form-group"><label>Nom</label><input type="text" name="nom"></div>
-                    <div class="form-group"><label>Prénom</label><input type="text" name="prenom"></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label>Téléphone</label><input type="tel" name="telephone"></div>
-                    <div class="form-group"><label>Mail</label><input type="email" name="mail"></div>
-                </div>
-                <div class="form-group"><label>Adresse</label><input type="text" id="adresse" name="adresse"></div>
-                <div class="form-row">
-                    <div class="form-group"><label>Code postal</label><input type="text" id="code_postal" name="code_postal"></div>
-                    <div class="form-group"><label>Ville</label><input type="text" id="ville" name="ville"></div>
-                </div>
-            </div>
-
-            <!-- LOGEMENT -->
-            <div class="section">
-                <h2>Logement</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Propriétaire</label>
-                        <select name="proprietaire">
-                            <option>Oui</option>
-                            <option>Non</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Occupant / Bailleur / Sci</label>
-                        <select name="occupant">
-                            <option value="occupant">Occupant</option>
-                            <option value="bailleur">Bailleur</option>
-                            <option value="sci">SCI</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group"><label>Surface habitable (m²)</label><input type="number" name="surface"></div>
-                <div class="form-group">
-                    <label>Mode chauffage</label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="chauffage" value="chaudiere_gaz">Chaudière gaz</label>
-                        <label><input type="checkbox" name="chauffage" value="chaudiere_fioul">Chaudière fioul</label>
-                        <label><input type="checkbox" name="chauffage" value="radiateurs_electriques">Radiateurs électriques</label>
-                        <label><input type="checkbox" name="chauffage" value="pac_air_eau">Pompe à chaleur air/eau</label>
-                        <label><input type="checkbox" name="chauffage" value="pac_air_air">Pompe à chaleur air/air</label>
-                        <label><input type="checkbox" name="chauffage" value="poele_bois">Poêle à bois</label>
-                        <label><input type="checkbox" name="chauffage" value="cheminee">Cheminée</label>
-                        <label><input type="checkbox" name="chauffage" value="poele_granules">Poêle à granulés</label>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label>Facture annuelle Gaz (€)</label><input type="number" name="facture_gaz"></div>
-                    <div class="form-group"><label>Facture annuelle Fioul (€)</label><input type="number" name="facture_fioul"></div>
-                    <div class="form-group"><label>Facture annuelle Elec (€)</label><input type="number" name="facture_elec"></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Monophasé ou triphasé</label>
-                        <select name="phase">
-                            <option value="monophase">Monophasé</option>
-                            <option value="triphase">Triphasé</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Linky</label>
-                        <select name="linky">
-                            <option>Oui</option>
-                            <option>Non</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Type toiture</label>
-                        <select name="toiture">
-                            <option value="tuile">Tuile</option>
-                            <option value="ardoise">Ardoise</option>
-                            <option value="zinc">Zinc</option>
-                            <option value="tole">Tôle</option>
-                            <option value="terrasse">Toit terrasse</option>
-                            <option value="fibrociment">Fibrociment</option>
-                            <option value="bac_acier">Bac acier</option>
-                            <option value="chaume">Chaume</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Orientation toiture</label>
-                        <select name="orientation">
-                            <option value="sud">Sud</option>
-                            <option value="sud_ouest">Sud-Ouest</option>
-                            <option value="sud_est">Sud-Est</option>
-                            <option value="ouest">Ouest</option>
-                            <option value="est">Est</option>
-                            <option value="nord">Nord</option>
-                            <option value="nord_ouest">Nord-Ouest</option>
-                            <option value="nord_est">Nord-Est</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Zone bâtiment de France</label>
-                    <select name="zone_bf">
-                        <option>Oui</option>
-                        <option>Non</option>
-                    </select>
-                </div>
-                <!-- Nouvelles données MPR -->
-                <div class="form-group">
-                    <label>MPR</label> <!-- Pas de champ de saisie -->
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>RFR (€)</label>
-                        <input type="number" name="rfr">
-                    </div>
-                    <div class="form-group">
-                        <label>Nombre de personnes dans le foyer</label>
-                        <input type="number" name="nb_foyer">
-                    </div>
-                </div>
-            </div>
-
-            <!-- FINANCEMENT -->
-            <div class="section">
-                <h2>Financement</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Situation Monsieur</label>
-                        <select name="situation_mr">
-                            <option value="cdi">CDI</option>
-                            <option value="cdd">CDD</option>
-                            <option value="interimaire">Interimaire</option>
-                            <option value="retraite">Retraité</option>
-                            <option value="sans_emploi">Sans emploi</option>
-                            <option value="auto_entrepreneur">Auto-entrepreneur</option>
-                            <option value="independant">Indépendant</option>
-                            <option value="etudiant">Étudiant</option>
-                            <option value="fonctionnaire">Fonctionnaire</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Situation Madame</label>
-                        <select name="situation_mme">
-                            <option value="cdi">CDI</option>
-                            <option value="cdd">CDD</option>
-                            <option value="interimaire">Interimaire</option>
-                            <option value="retraite">Retraité</option>
-                            <option value="sans_emploi">Sans emploi</option>
-                            <option value="auto_entrepreneur">Auto-entrepreneur</option>
-                            <option value="independant">Indépendant</option>
-                            <option value="etudiant">Étudiant</option>
-                            <option value="fonctionnaire">Fonctionnaire</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Salaire couple (€)</label>
-                        <input type="number" name="salaire_couple">
-                    </div>
-                    <div class="form-group">
-                        <label>Nombre d'enfants à charge</label>
-                        <input type="number" name="nb_enfants">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Crédit en cours</label>
-                        <select name="credit_cours">
-                            <option>Oui</option>
-                            <option>Non</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Montants mensualité des crédits (€)</label>
-                        <input type="number" name="mensualite_credit">
-                    </div>
-                </div>
-            </div>
-
-            <!-- RDV -->
-            <div class="section">
-                <h2>Rendez-vous</h2>
-                <div class="form-group datetime-group">
-                    <label>Date et Heure du RDV</label>
-                    <input type="date" name="date_rdv">
-                    <select name="heure_rdv">
-                        <option value="" disabled selected>Sélectionnez une heure</option>
-                        <option value="08:00">08:00</option>
-                        <option value="08:15">08:15</option>
-                        <option value="08:30">08:30</option>
-                        <option value="08:45">08:45</option>
-                        <option value="09:00">09:00</option>
-                        <option value="09:15">09:15</option>
-                        <option value="09:30">09:30</option>
-                        <option value="09:45">09:45</option>
-                        <option value="10:00">10:00</option>
-                        <option value="10:15">10:15</option>
-                        <option value="10:30">10:30</option>
-                        <option value="10:45">10:45</option>
-                        <option value="11:00">11:00</option>
-                        <option value="11:15">11:15</option>
-                        <option value="11:30">11:30</option>
-                        <option value="11:45">11:45</option>
-                        <option value="12:00">12:00</option>
-                        <option value="12:15">12:15</option>
-                        <option value="12:30">12:30</option>
-                        <option value="12:45">12:45</option>
-                        <option value="13:00">13:00</option>
-                        <option value="13:15">13:15</option>
-                        <option value="13:30">13:30</option>
-                        <option value="13:45">13:45</option>
-                        <option value="14:00">14:00</option>
-                        <option value="14:15">14:15</option>
-                        <option value="14:30">14:30</option>
-                        <option value="14:45">14:45</option>
-                        <option value="15:00">15:00</option>
-                        <option value="15:15">15:15</option>
-                        <option value="15:30">15:30</option>
-                        <option value="15:45">15:45</option>
-                        <option value="16:00">16:00</option>
-                        <option value="16:15">16:15</option>
-                        <option value="16:30">16:30</option>
-                        <option value="16:45">16:45</option>
-                        <option value="17:00">17:00</option>
-                        <option value="17:15">17:15</option>
-                        <option value="17:30">17:30</option>
-                        <option value="17:45">17:45</option>
-                        <option value="18:00">18:00</option>
-                        <option value="18:15">18:15</option>
-                        <option value="18:30">18:30</option>
-                        <option value="18:45">18:45</option>
-                        <option value="19:00">19:00</option>
-                        <option value="19:15">19:15</option>
-                        <option value="19:30">19:30</option>
-                    </select>
-                </div>
-                <div class="form-group checkbox-group">
-                    <label><input type="checkbox" name="presence_rdv" value="homme_seul"> Homme seul</label>
-                    <label><input type="checkbox" name="presence_rdv" value="femme_seule"> Femme seule</label>
-                    <label><input type="checkbox" name="presence_rdv" value="couple_present"> Le couple présent</label>
-                </div>
-            </div>
-
-            <!-- COMMENTAIRES -->
-            <div class="section">
-                <h2>Commentaires</h2>
-                <div class="form-group">
-                    <label>Commentaires</label>
-                    <textarea name="commentaires" rows="5"></textarea>
-                </div>
-            </div>
-
-            <button type="submit" class="submit-btn">Enregistrer</button>
-        </form>
-    </div>
-
-    <!-- SCRIPT D'ENVOI DES DONNÉES VERS GOOGLE SHEETS -->
-    <script>
-      const form = document.getElementById("crm-form");
-
-      form.addEventListener("submit", async function(event) {
-        event.preventDefault(); // Empêche le rechargement de la page
-
-        // 1) Récupération des champs simples
-        const payload = {
-          nom: form.elements["nom"].value,
-          prenom: form.elements["prenom"].value,
-          telephone: form.elements["telephone"].value,
-          mail: form.elements["mail"].value,
-          adresse: form.elements["adresse"].value,
-          code_postal: form.elements["code_postal"].value,
-          ville: form.elements["ville"].value,
-          proprietaire: form.elements["proprietaire"].value,
-          occupant: form.elements["occupant"].value,
-          surface: form.elements["surface"].value,
-          facture_gaz: form.elements["facture_gaz"].value,
-          facture_fioul: form.elements["facture_fioul"].value,
-          facture_elec: form.elements["facture_elec"].value,
-          phase: form.elements["phase"].value,
-          linky: form.elements["linky"].value,
-          toiture: form.elements["toiture"].value,
-          orientation: form.elements["orientation"].value,
-          zone_bf: form.elements["zone_bf"].value,
-          rfr: form.elements["rfr"].value,
-          nb_foyer: form.elements["nb_foyer"].value,
-          situation_mr: form.elements["situation_mr"].value,
-          situation_mme: form.elements["situation_mme"].value,
-          salaire_couple: form.elements["salaire_couple"].value,
-          nb_enfants: form.elements["nb_enfants"].value,
-          credit_cours: form.elements["credit_cours"].value,
-          mensualite_credit: form.elements["mensualite_credit"].value,
-          date_rdv: form.elements["date_rdv"].value.trim() === "" ? "LEAD" : form.elements["date_rdv"].value,
-          heure_rdv: form.elements["heure_rdv"].value,
-          commentaires: form.elements["commentaires"].value
-        };
-
-        // 2) Récupération des valeurs des checkboxes "presence_rdv"
-        const presenceRdvElements = document.querySelectorAll('input[name="presence_rdv"]:checked');
-        const presence_rdv_values = [];
-        presenceRdvElements.forEach((checkbox) => {
-          presence_rdv_values.push(checkbox.value);
-        });
-        payload.presence_rdv = presence_rdv_values;
-
-        // 3) Récupération des valeurs des checkboxes "chauffage"
-        const chauffageElements = document.querySelectorAll('input[name="chauffage"]:checked');
-        const chauffage_values = [];
-        chauffageElements.forEach((checkbox) => {
-          chauffage_values.push(checkbox.value);
-        });
-        payload.chauffage = chauffage_values;
-
-        // 4) URL de votre script Apps Script (publié en "Tout le monde, même anonyme")
-        const scriptURL = "https://script.google.com/macros/s/AKfycbz1hzYAyOYw1k2F_YV7TXDbOlkMuLAHhWOq6uvqs3K12BCaEJOdfYkn93tTRK_gXrEvnA/exec";
-
-        try {
-          // Envoi en mode "no-cors"
-          await fetch(scriptURL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(payload)
-          });
-
-          // Avec no-cors, on n'a pas accès à la réponse, on affiche un message localement
-          alert("Données envoyées !");
-          form.reset();
-        } catch (error) {
-          alert("Erreur lors de l'envoi : " + error);
+      autocomplete.addListener("place_changed", function() {
+        const place = autocomplete.getPlace();
+        if (place.address_components) {
+          const postalCode = place.address_components.find(c => c.types.includes("postal_code"));
+          const city = place.address_components.find(c => c.types.includes("locality"));
+          document.getElementById("code_postal").value = postalCode ? postalCode.long_name : "";
+          document.getElementById("ville").value = city ? city.long_name : "";
+          document.getElementById("adresse").value = place.name || place.formatted_address;
         }
       });
-    </script>
+    }
+
+    // Fonction pour formater le numéro de téléphone
+    function formatPhone(input) {
+      // Retirer tous les caractères non numériques
+      var cleaned = input.value.replace(/\D/g, '');
+      // Ajouter un espace tous les 2 chiffres
+      var formatted = cleaned.replace(/(\d{2})(?=\d)/g, '$1 ');
+      input.value = formatted.trim();
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      initAutocomplete();
+    });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>CRM - Photovoltaïque</h1>
+
+    <!-- Formulaire CRM -->
+    <form id="crm-form">
+      <!-- CLIENT -->
+      <div class="section">
+        <h2>Client</h2>
+        <div class="form-row">
+          <div class="form-group"><label>Nom</label><input type="text" name="nom"></div>
+          <div class="form-group"><label>Prénom</label><input type="text" name="prenom"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Téléphone</label>
+            <!-- Appel de la fonction formatPhone lors de la saisie -->
+            <input type="tel" name="telephone" oninput="formatPhone(this)">
+          </div>
+          <div class="form-group"><label>Mail</label><input type="email" name="mail"></div>
+        </div>
+        <div class="form-group"><label>Adresse</label><input type="text" id="adresse" name="adresse"></div>
+        <div class="form-row">
+          <div class="form-group"><label>Code postal</label><input type="text" id="code_postal" name="code_postal"></div>
+          <div class="form-group"><label>Ville</label><input type="text" id="ville" name="ville"></div>
+        </div>
+      </div>
+
+      <!-- LOGEMENT -->
+      <div class="section">
+        <h2>Logement</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Propriétaire</label>
+            <select name="proprietaire">
+              <option>Oui</option>
+              <option>Non</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Occupant / Bailleur / Sci</label>
+            <select name="occupant">
+              <option value="occupant">Occupant</option>
+              <option value="bailleur">Bailleur</option>
+              <option value="sci">SCI</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group"><label>Surface habitable (m²)</label><input type="number" name="surface"></div>
+        <div class="form-group">
+          <label>Mode chauffage</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="chauffage" value="chaudiere_gaz">Chaudière gaz</label>
+            <label><input type="checkbox" name="chauffage" value="chaudiere_fioul">Chaudière fioul</label>
+            <label><input type="checkbox" name="chauffage" value="radiateurs_electriques">Radiateurs électriques</label>
+            <label><input type="checkbox" name="chauffage" value="pac_air_eau">Pompe à chaleur air/eau</label>
+            <label><input type="checkbox" name="chauffage" value="pac_air_air">Pompe à chaleur air/air</label>
+            <label><input type="checkbox" name="chauffage" value="poele_bois">Poêle à bois</label>
+            <label><input type="checkbox" name="chauffage" value="cheminee">Cheminée</label>
+            <label><input type="checkbox" name="chauffage" value="poele_granules">Poêle à granulés</label>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Facture annuelle Gaz (€)</label><input type="number" name="facture_gaz"></div>
+          <div class="form-group"><label>Facture annuelle Fioul (€)</label><input type="number" name="facture_fioul"></div>
+          <div class="form-group"><label>Facture annuelle Elec (€)</label><input type="number" name="facture_elec"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Monophasé ou triphasé</label>
+            <select name="phase">
+              <option value="monophase">Monophasé</option>
+              <option value="triphase">Triphasé</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Linky</label>
+            <select name="linky">
+              <option>Oui</option>
+              <option>Non</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Type toiture</label>
+            <select name="toiture">
+              <option value="tuile">Tuile</option>
+              <option value="ardoise">Ardoise</option>
+              <option value="zinc">Zinc</option>
+              <option value="tole">Tôle</option>
+              <option value="terrasse">Toit terrasse</option>
+              <option value="fibrociment">Fibrociment</option>
+              <option value="bac_acier">Bac acier</option>
+              <option value="chaume">Chaume</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Orientation toiture</label>
+            <select name="orientation">
+              <option value="sud">Sud</option>
+              <option value="sud_ouest">Sud-Ouest</option>
+              <option value="sud_est">Sud-Est</option>
+              <option value="ouest">Ouest</option>
+              <option value="est">Est</option>
+              <option value="nord">Nord</option>
+              <option value="nord_ouest">Nord-Ouest</option>
+              <option value="nord_est">Nord-Est</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Zone bâtiment de France</label>
+          <select name="zone_bf">
+            <option>Oui</option>
+            <option>Non</option>
+          </select>
+        </div>
+        <!-- Nouvelles données MPR -->
+        <div class="form-group">
+          <label>MPR</label>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>RFR (€)</label>
+            <input type="number" name="rfr">
+          </div>
+          <div class="form-group">
+            <label>Nombre de personnes dans le foyer</label>
+            <input type="number" name="nb_foyer">
+          </div>
+        </div>
+      </div>
+
+      <!-- FINANCEMENT -->
+      <div class="section">
+        <h2>Financement</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Situation Monsieur</label>
+            <select name="situation_mr">
+              <option value="cdi">CDI</option>
+              <option value="cdd">CDD</option>
+              <option value="interimaire">Interimaire</option>
+              <option value="retraite">Retraité</option>
+              <option value="sans_emploi">Sans emploi</option>
+              <option value="auto_entrepreneur">Auto-entrepreneur</option>
+              <option value="independant">Indépendant</option>
+              <option value="etudiant">Étudiant</option>
+              <option value="fonctionnaire">Fonctionnaire</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Situation Madame</label>
+            <select name="situation_mme">
+              <option value="cdi">CDI</option>
+              <option value="cdd">CDD</option>
+              <option value="interimaire">Interimaire</option>
+              <option value="retraite">Retraité</option>
+              <option value="sans_emploi">Sans emploi</option>
+              <option value="auto_entrepreneur">Auto-entrepreneur</option>
+              <option value="independant">Indépendant</option>
+              <option value="etudiant">Étudiant</option>
+              <option value="fonctionnaire">Fonctionnaire</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Salaire couple (€)</label>
+            <input type="number" name="salaire_couple">
+          </div>
+          <div class="form-group">
+            <label>Nombre d'enfants à charge</label>
+            <input type="number" name="nb_enfants">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Crédit en cours</label>
+            <select name="credit_cours">
+              <option>Oui</option>
+              <option>Non</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Montants mensualité des crédits (€)</label>
+            <input type="number" name="mensualite_credit">
+          </div>
+        </div>
+      </div>
+
+      <!-- RDV -->
+      <div class="section">
+        <h2>Rendez-vous</h2>
+        <div class="form-group datetime-group">
+          <label>Date et Heure du RDV</label>
+          <input type="date" name="date_rdv">
+          <select name="heure_rdv">
+            <option value="" disabled selected>Sélectionnez une heure</option>
+            <option value="08:00">08:00</option>
+            <option value="08:15">08:15</option>
+            <option value="08:30">08:30</option>
+            <option value="08:45">08:45</option>
+            <option value="09:00">09:00</option>
+            <option value="09:15">09:15</option>
+            <option value="09:30">09:30</option>
+            <option value="09:45">09:45</option>
+            <option value="10:00">10:00</option>
+            <option value="10:15">10:15</option>
+            <option value="10:30">10:30</option>
+            <option value="10:45">10:45</option>
+            <option value="11:00">11:00</option>
+            <option value="11:15">11:15</option>
+            <option value="11:30">11:30</option>
+            <option value="11:45">11:45</option>
+            <option value="12:00">12:00</option>
+            <option value="12:15">12:15</option>
+            <option value="12:30">12:30</option>
+            <option value="12:45">12:45</option>
+            <option value="13:00">13:00</option>
+            <option value="13:15">13:15</option>
+            <option value="13:30">13:30</option>
+            <option value="13:45">13:45</option>
+            <option value="14:00">14:00</option>
+            <option value="14:15">14:15</option>
+            <option value="14:30">14:30</option>
+            <option value="14:45">14:45</option>
+            <option value="15:00">15:00</option>
+            <option value="15:15">15:15</option>
+            <option value="15:30">15:30</option>
+            <option value="15:45">15:45</option>
+            <option value="16:00">16:00</option>
+            <option value="16:15">16:15</option>
+            <option value="16:30">16:30</option>
+            <option value="16:45">16:45</option>
+            <option value="17:00">17:00</option>
+            <option value="17:15">17:15</option>
+            <option value="17:30">17:30</option>
+            <option value="17:45">17:45</option>
+            <option value="18:00">18:00</option>
+            <option value="18:15">18:15</option>
+            <option value="18:30">18:30</option>
+            <option value="18:45">18:45</option>
+            <option value="19:00">19:00</option>
+            <option value="19:15">19:15</option>
+            <option value="19:30">19:30</option>
+          </select>
+        </div>
+        <div class="form-group checkbox-group">
+          <label><input type="checkbox" name="presence_rdv" value="homme_seul"> Homme seul</label>
+          <label><input type="checkbox" name="presence_rdv" value="femme_seule"> Femme seule</label>
+          <label><input type="checkbox" name="presence_rdv" value="couple_present"> Le couple présent</label>
+        </div>
+      </div>
+
+      <!-- COMMENTAIRES -->
+      <div class="section">
+        <h2>Commentaires</h2>
+        <div class="form-group">
+          <label>Commentaires</label>
+          <textarea name="commentaires" rows="5"></textarea>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn">Enregistrer</button>
+    </form>
+  </div>
+
+  <!-- SCRIPT D'ENVOI DES DONNÉES VERS GOOGLE SHEETS -->
+  <script>
+    const form = document.getElementById("crm-form");
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault(); // Empêche le rechargement de la page
+
+      // Récupération des champs simples
+      const payload = {
+        nom: form.elements["nom"].value,
+        prenom: form.elements["prenom"].value,
+        telephone: form.elements["telephone"].value,
+        mail: form.elements["mail"].value,
+        adresse: form.elements["adresse"].value,
+        code_postal: form.elements["code_postal"].value,
+        ville: form.elements["ville"].value,
+        proprietaire: form.elements["proprietaire"].value,
+        occupant: form.elements["occupant"].value,
+        surface: form.elements["surface"].value,
+        facture_gaz: form.elements["facture_gaz"].value,
+        facture_fioul: form.elements["facture_fioul"].value,
+        facture_elec: form.elements["facture_elec"].value,
+        phase: form.elements["phase"].value,
+        linky: form.elements["linky"].value,
+        toiture: form.elements["toiture"].value,
+        orientation: form.elements["orientation"].value,
+        zone_bf: form.elements["zone_bf"].value,
+        rfr: form.elements["rfr"].value,
+        nb_foyer: form.elements["nb_foyer"].value,
+        situation_mr: form.elements["situation_mr"].value,
+        situation_mme: form.elements["situation_mme"].value,
+        salaire_couple: form.elements["salaire_couple"].value,
+        nb_enfants: form.elements["nb_enfants"].value,
+        credit_cours: form.elements["credit_cours"].value,
+        mensualite_credit: form.elements["mensualite_credit"].value,
+        date_rdv: form.elements["date_rdv"].value.trim() === "" ? "LEAD" : form.elements["date_rdv"].value,
+        heure_rdv: form.elements["heure_rdv"].value,
+        commentaires: form.elements["commentaires"].value
+      };
+
+      // Récupération des valeurs des checkboxes "presence_rdv"
+      const presenceRdvElements = document.querySelectorAll('input[name="presence_rdv"]:checked');
+      const presence_rdv_values = [];
+      presenceRdvElements.forEach((checkbox) => {
+        presence_rdv_values.push(checkbox.value);
+      });
+      payload.presence_rdv = presence_rdv_values;
+
+      // Récupération des valeurs des checkboxes "chauffage"
+      const chauffageElements = document.querySelectorAll('input[name="chauffage"]:checked');
+      const chauffage_values = [];
+      chauffageElements.forEach((checkbox) => {
+        chauffage_values.push(checkbox.value);
+      });
+      payload.chauffage = chauffage_values;
+
+      // URL de votre script Apps Script (publié en "Tout le monde, même anonyme")
+      const scriptURL = "https://script.google.com/macros/s/AKfycbz1hzYAyOYw1k2F_YV7TXDbOlkMuLAHhWOq6uvqs3K12BCaEJOdfYkn93tTRK_gXrEvnA/exec";
+
+      try {
+        await fetch(scriptURL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        alert("Données envoyées !");
+        form.reset();
+      } catch (error) {
+        alert("Erreur lors de l'envoi : " + error);
+      }
+    });
+  </script>
 </body>
 </html>
