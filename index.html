@@ -385,6 +385,10 @@
           <label>Commentaires</label>
           <textarea name="commentaires" rows="5"></textarea>
         </div>
+        <div class="form-group">
+          <label>Télépro</label>
+          <input type="text" name="telepro">
+        </div>
       </div>
 
       <button type="submit" class="submit-btn">Enregistrer</button>
@@ -428,7 +432,8 @@
         mensualite_credit: form.elements["mensualite_credit"].value,
         date_rdv: form.elements["date_rdv"].value.trim() === "" ? "LEAD" : form.elements["date_rdv"].value,
         heure_rdv: form.elements["heure_rdv"].value,
-        commentaires: form.elements["commentaires"].value
+        commentaires: form.elements["commentaires"].value,
+        telepro: form.elements["telepro"].value
       };
 
       // Récupération des valeurs des checkboxes "presence_rdv"
