@@ -3,473 +3,420 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CRM Photovoltaïque</title>
+  <title>Simulation Photovoltaïque</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
+      background-color: #dbe0e6;
       padding: 20px;
-    }
-    .container {
-      max-width: 900px;
+      max-width: 700px;
       margin: auto;
-      background: #fff;
-      padding: 20px;
+      color: #2c2c2c;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      font-size: 26px;
+      margin-bottom: 15px;
+    }
+
+    .intro {
+      background: #333b45;
+      padding: 18px 22px;
+      border-left: 4px solid #ffc107;
+      color: #ffffff;
+      font-size: 17px;
+      line-height: 1.6;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
     }
-    h2 {
-      background-color: #f0f0f0;
-      padding: 10px;
-      border-radius: 5px;
-      margin-bottom: 15px;
-    }
-    .form-group {
-      margin-bottom: 15px;
-      display: flex;
-      flex-direction: column;
-    }
-    .form-row {
-      display: flex;
-      gap: 20px;
-    }
-    .form-row .form-group {
-      flex: 1;
-    }
-    label {
-      margin-bottom: 5px;
+
+    .intro strong {
+      display: block;
       font-weight: bold;
+      margin-bottom: 5px;
     }
-    input, select, textarea {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 14px;
-    }
-    textarea {
-      resize: vertical;
-    }
-    .checkbox-group {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 10px;
-    }
-    .checkbox-group label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: normal;
-    }
-    .submit-btn {
-      background-color: #28a745;
+
+    .form-section {
+      background: #2c2f34;
+      padding: 25px;
+      border-radius: 8px;
+      margin-bottom: 20px;
       color: white;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+      color: #e2e2e2;
+    }
+
+    input {
       width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 6px;
+      background: #444;
+      color: #fff;
     }
-    .submit-btn:hover {
-      background-color: #218838;
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #1f1f1f;
+      color: white;
+      border: 1px solid #999;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
     }
-    .datetime-group {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+
+    button:active {
+      transform: scale(0.98);
     }
-    .datetime-group input,
-    .datetime-group select {
-      flex: 1;
-      min-width: 120px;
+
+    .recap {
+      background: #f5f5f5;
+      border-radius: 5px;
+      padding: 18px;
+      margin-bottom: 20px;
+      color: #333;
+      min-height: 160px;
     }
+
+    .result {
+      background: #f5f5f5;
+      border-radius: 5px;
+      padding: 18px;
+      color: #1c4424;
+      min-height: 260px;
+    }
+
+    .result p {
+      margin-bottom: 10px;
+    }
+
+    .result p:last-child {
+      font-style: italic;
+      font-size: 0.95rem;
+      margin-top: 15px;
+    }
+
+    @media (max-width: 500px) {
+      body {
+        padding: 10px;
+      }
+      h1 {
+        font-size: 22px;
+      }
+      .intro {
+        font-size: 15px;
+      }
+    }
+        @media (max-width: 600px) {
+      #blocImagePV > div {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      #blocImagePV img {
+        max-width: 100%;
+      }
+
+      #blocImagePV ul {
+        text-align: left;
+      }
+    }
+
   </style>
-  <!-- Script Google Maps Autocomplete -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPz59eSA-UkT2AzlQzXslwzt8V5uftFzM&libraries=places"></script>
+</head>
+<body>
+  <!-- Bloc logo centré -->
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://github.com/BiofranceEnergies/biofrance-images/blob/d21e60bacd91a0bbb74a626f515f7b6246bb6c28/Logo%20biofrance%20energie%20-webp.webp?raw=true" 
+         alt="Logo Biofrance Énergies" 
+         style="max-width: 240px; height: auto;">
+  </div>
+  <h1>Comprenez en 3 secondes ce que le solaire peut vraiment vous faire économiser.</h1>
+  
+
+<div class="intro">
+    <p><strong>⚡ Un simulateur unique, pensé pour vous donner des réponses, pas pour collecter vos coordonnées.</strong></p>
+    <p>📍 Code postal, ⚡ consommation, 💶 facture… en 3 secondes, votre économie solaire estimée s’affiche directement à l’écran.</p>
+    <p>❌ Aucun formulaire à valider. 📞 Aucun appel à attendre.</p>
+    <p>💡 Propulsé par un moteur de calcul intelligent inspiré de notre outil professionnel, basé sur les données locales de production solaire.</p>
+    <p><strong>ℹ️ Chez Biofrance Énergies, vous méritez une info claire, fiable et immédiate avant de prendre une décision.</strong></p>
+
+  </div>
+
+
+
+  <div class="form-section">
+    <label for="codePostal">📍 Votre code postal</label>
+    <input type="text" id="codePostal" placeholder="Ex : 75001">
+      
+    <label for="conso">🔌 Consommation annuelle (kWh)</label>
+    <input type="number" id="conso" placeholder="Ex : 7200">
+
+    <label for="facture">💶 Facture annuelle (€)</label>
+    <input type="number" id="facture" placeholder="Ex : 1680">
+
+    <button id="simuler">📊 Lancer la simulation</button>
+  </div>
+
+  <div id="recap" class="recap" style="display: none;">
+
+    <p><em>Les résultats apparaîtront ici après votre simulation.</em></p>
+  </div>
+<div id="blocImagePV" style="display: none; background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); margin-bottom: 20px;">
+  <div style="display: flex; align-items: flex-start; gap: 20px;">
+    <img src="https://github.com/BiofranceEnergies/biofrance-images/blob/ed9f69eca63582630e403b6f239e7190254bce90/pano%20500w.webp?raw=true" alt="Panneaux photovoltaïques 500W" style="max-width: 200px; height: auto; border-radius: 6px;">
+    
+    <div style="font-size: 0.95em; color: #333;">
+      <h3 style="margin: 0 0 10px 0; font-size: 1.1em; color: #0056d6;">FLASH 500 Half-Cut Glass-Glass Topcon</h3>
+      <ul style="margin: 0; padding-left: 18px;">
+        <li><strong>Panneau compact :</strong> 1950 mm x 1134 mm x 30 mm, 27,1 Kg, 2,2 m²</li>
+        <li>Panneau bi-verre et bi-facial</li>
+        <li>Gain de puissance de 10 % potentiel grâce à la bifacialité</li>
+        <li>Garantie 30 ans</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+  <div id="resultat" class="result" style="display: none;">
+
+    <p><em>Veuillez entrer votre consommation et votre facture pour voir le gain estimé.</em></p>
+  </div>
+
+
+  <div id="offre" style="margin-top: 20px; display: none;">
+    <div style="background: #f5f5f5; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
+      <strong style="color: #0056d6; font-size: 1.1em; display: block; margin-bottom: 8px;">Dès la première année</strong>
+      <p>Vous réalisez une économie d’environ <span id="ecoMensuelle"></span> par mois, grâce à l’autoconsommation et à la valorisation de votre surplus.</p>
+    </div>
+    <div style="background: #f5f5f5; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
+      <strong style="color: #0056d6; font-size: 1.1em; display: block; margin-bottom: 8px;">Ce que nous vous proposons</strong>
+      <p>Remplacer ce paiement mensuel fait à votre fournisseur d’électricité par une solution concrète :</p>
+      <p id="mensualiteTexte"></p>
+    </div>
+    <div style="background: #f5f5f5; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
+      <strong style="color: #0056d6; font-size: 1.1em; display: block; margin-bottom: 8px;">Et chaque année</strong>
+      <p>Le prix de l’électricité augmente, vos économies aussi. Votre mensualité, elle, reste fixe.</p>
+    </div>
+    <div style="background: #f5f5f5; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
+      <strong style="color: #0056d6; font-size: 1.1em; display: block; margin-bottom: 8px;">Projection sur 15 ans</strong>
+      <p>Votre économie cumulée est estimée à <span id="eco15ans"></span>.</p>
+    </div>
+    <div style="background: #e6f3e6; border-radius: 10px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
+      <strong style="color: #0056d6; font-size: 1.1em; display: block; margin-bottom: 8px;">Vous ne subissez plus votre facture</strong>
+      <p>Vous investissez dans votre propre électricité. C’est un choix durable, rentable et intelligent. De plus vous valorisez votre habitation en cas de revente de celle-ci.</p>
+    </div>
+    <p style="font-size: 0.85em; color: #444; margin-top: 15px;" id="mentions"></p>
+  </div>
+  <!-- À coller immédiatement APRÈS ceci :
+<p style="font-size: 0.85em; color: #444; margin-top: 15px;" id="mentions"></p>
+</div> -->
+
+<div id="blocMail" style="display: none; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-top: 30px; max-width: 700px; margin-left: auto; margin-right: auto;">
+
+  <p style="font-size: 1.2em; font-weight: bold; margin-bottom: 8px;">
+    📩 Recevoir cette estimation par mail ?
+  </p>
+  <p style="margin-bottom: 20px;">
+    Pour garder une trace de cette simulation ou en discuter plus tard, entrez simplement votre email.<br>
+    <strong>C’est immédiat, sans engagement.</strong>
+  </p>
+  <form>
+    <input type="email" placeholder="Votre adresse email" required
+      style="width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 6px; border: none; background: #444; color: #fff; font-size: 1em; box-sizing: border-box;" />
+    
+    <input type="tel" placeholder="(Facultatif) Votre téléphone"
+      style="width: 100%; padding: 12px; margin-bottom: 18px; border-radius: 6px; border: none; background: #444; color: #fff; font-size: 1em; box-sizing: border-box;" />
+    
+    <button type="submit"
+      style="width: 100%; background: #0056d6; color: white; border: none; padding: 14px; font-size: 1.05em; border-radius: 8px; font-weight: bold; cursor: pointer;">
+      Recevoir mon estimation
+    </button>
+  </form>
+  <div style="margin-top: 20px; font-size: 0.9em; color: #444;">
+    <p style="margin: 10px 0;">⭐️⭐️⭐️⭐️⭐️ <strong>4,9/5 sur Google</strong> – Plus de 400 foyers accompagnés en France.</p>
+    <p style="margin: 10px 0;">🔒 Vos données ne seront jamais revendues. Aucun démarchage automatique.</p>
+  </div>
+</div>
+
+
   <script>
-    function initAutocomplete() {
-      const input = document.getElementById("adresse");
-      const autocomplete = new google.maps.places.Autocomplete(input, {
-        types: ["geocode"],
-        componentRestrictions: { country: "fr" }
-      });
+    
 
-      autocomplete.addListener("place_changed", function() {
-        const place = autocomplete.getPlace();
-        if (place.address_components) {
-          const postalCode = place.address_components.find(c => c.types.includes("postal_code"));
-          const city = place.address_components.find(c => c.types.includes("locality"));
-          document.getElementById("code_postal").value = postalCode ? postalCode.long_name : "";
-          document.getElementById("ville").value = city ? city.long_name : "";
-          document.getElementById("adresse").value = place.name || place.formatted_address;
-        }
-      });
-    }
+    function afficherBlocFinancement(scenario, economieMensuelle, gain15ans) {
+      const offre = {
+  prix: scenario.prix,
+  mensualite: scenario.mensualite,
+  taeg: scenario.taeg,
+  total: scenario.total
+};
 
-    // Fonction pour formater le numéro de téléphone
-    function formatPhone(input) {
-      // Retirer tous les caractères non numériques
-      var cleaned = input.value.replace(/\D/g, '');
-      // Ajouter un espace tous les 2 chiffres
-      var formatted = cleaned.replace(/(\d{2})(?=\d)/g, '$1 ');
-      input.value = formatted.trim();
+
+      if (offre) {
+        document.getElementById("ecoMensuelle").innerHTML = `<strong>${Math.round(economieMensuelle).toLocaleString('fr-FR')} €</strong>`;
+        document.getElementById("eco15ans").innerHTML = `<strong>${Math.round(gain15ans).toLocaleString('fr-FR')} €</strong>`;
+
+        document.getElementById("mensualiteTexte").innerHTML = `
+  <strong>Une mensualité fixe de ${offre.mensualite.toFixed(2).replace('.', ',')} €*</strong>
+  pour financer cette installation <strong>clé en main</strong> — et ainsi devenir
+  <strong>propriétaire de votre production solaire</strong>.`;
+
+       document.getElementById("mentions").innerText = `
+* Exemple : installation ${scenario.puissance} à ${offre.prix.toLocaleString('fr-FR')} €
+financement sur 180 mois au TAEG fixe de ${offre.taeg.toFixed(2).replace('.', ',')} %, mensualité ${offre.mensualite.toFixed(2).replace('.', ',')} € (hors assurance).
+Coût total du financement hors assurance : ${offre.total.toLocaleString('fr-FR')} €.
+Financement proposé par notre partenaire Projexio, sous réserve d’acceptation. Un crédit vous engage et doit être remboursé.
+Vérifiez vos capacités de remboursement avant de vous engager.`;
+
+
+        document.getElementById("offre").style.display = "block";
+      }
     }
 
     document.addEventListener("DOMContentLoaded", function() {
-      initAutocomplete();
-    });
-  </script>
-</head>
-<body>
-  <div class="container">
-    <h1>CRM - Photovoltaïque</h1>
+      let scenarios = [];
 
-    <!-- Formulaire CRM -->
-    <form id="crm-form">
-      <!-- CLIENT -->
-      <div class="section">
-        <h2>Client</h2>
-        <div class="form-row">
-          <div class="form-group"><label>Nom</label><input type="text" name="nom"></div>
-          <div class="form-group"><label>Prénom</label><input type="text" name="prenom"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Téléphone</label>
-            <!-- Appel de la fonction formatPhone lors de la saisie -->
-            <input type="tel" name="telephone" oninput="formatPhone(this)">
-          </div>
-          <div class="form-group"><label>Mail</label><input type="email" name="mail"></div>
-        </div>
-        <div class="form-group"><label>Adresse</label><input type="text" id="adresse" name="adresse"></div>
-        <div class="form-row">
-          <div class="form-group"><label>Code postal</label><input type="text" id="code_postal" name="code_postal"></div>
-          <div class="form-group"><label>Ville</label><input type="text" id="ville" name="ville"></div>
-        </div>
-      </div>
+const url = "https://script.google.com/macros/s/AKfycbwhlyD_FMMm2g9JIQAm2Se2xehUqIM2MzWMl1YGl_gP1DJKM_-jZFj_YStDMhWi-0F8XA/exec";
 
-      <!-- LOGEMENT -->
-      <div class="section">
-        <h2>Logement</h2>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Propriétaire</label>
-            <select name="proprietaire">
-              <option>Oui</option>
-              <option>Non</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Occupant / Bailleur / Sci</label>
-            <select name="occupant">
-              <option value="occupant">Occupant</option>
-              <option value="bailleur">Bailleur</option>
-              <option value="sci">SCI</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group"><label>Surface habitable (m²)</label><input type="number" name="surface"></div>
-        <div class="form-group">
-          <label>Mode chauffage</label>
-          <div class="checkbox-group">
-            <label><input type="checkbox" name="chauffage" value="chaudiere_gaz">Chaudière gaz</label>
-            <label><input type="checkbox" name="chauffage" value="chaudiere_fioul">Chaudière fioul</label>
-            <label><input type="checkbox" name="chauffage" value="radiateurs_electriques">Radiateurs électriques</label>
-            <label><input type="checkbox" name="chauffage" value="pac_air_eau">Pompe à chaleur air/eau</label>
-            <label><input type="checkbox" name="chauffage" value="pac_air_air">Pompe à chaleur air/air</label>
-            <label><input type="checkbox" name="chauffage" value="poele_bois">Poêle à bois</label>
-            <label><input type="checkbox" name="chauffage" value="cheminee">Cheminée</label>
-            <label><input type="checkbox" name="chauffage" value="poele_granules">Poêle à granulés</label>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label>Facture annuelle Gaz (€)</label><input type="number" name="facture_gaz"></div>
-          <div class="form-group"><label>Facture annuelle Fioul (€)</label><input type="number" name="facture_fioul"></div>
-          <div class="form-group"><label>Facture annuelle Elec (€)</label><input type="number" name="facture_elec"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Monophasé ou triphasé</label>
-            <select name="phase">
-              <option value="monophase">Monophasé</option>
-              <option value="triphase">Triphasé</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Linky</label>
-            <select name="linky">
-              <option>Oui</option>
-              <option>Non</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Type toiture</label>
-            <select name="toiture">
-              <option value="tuile">Tuile</option>
-              <option value="ardoise">Ardoise</option>
-              <option value="zinc">Zinc</option>
-              <option value="tole">Tôle</option>
-              <option value="terrasse">Toit terrasse</option>
-              <option value="fibrociment">Fibrociment</option>
-              <option value="bac_acier">Bac acier</option>
-              <option value="chaume">Chaume</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Orientation toiture</label>
-            <select name="orientation">
-              <option value="sud">Sud</option>
-              <option value="sud_ouest">Sud-Ouest</option>
-              <option value="sud_est">Sud-Est</option>
-              <option value="ouest">Ouest</option>
-              <option value="est">Est</option>
-              <option value="nord">Nord</option>
-              <option value="nord_ouest">Nord-Ouest</option>
-              <option value="nord_est">Nord-Est</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Zone bâtiment de France</label>
-          <select name="zone_bf">
-            <option>Oui</option>
-            <option>Non</option>
-          </select>
-        </div>
-        <!-- Nouvelles données MPR -->
-        <div class="form-group">
-          <label>MPR</label>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>RFR (€)</label>
-            <input type="number" name="rfr">
-          </div>
-          <div class="form-group">
-            <label>Nombre de personnes dans le foyer</label>
-            <input type="number" name="nb_foyer">
-          </div>
-        </div>
-      </div>
+fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    scenarios = data.map(item => ({
+      puissance: item.Puissance,
+      prod: parseInt(item.Prod),
+      seuil: parseInt(item.Seuil),
+      panels: parseInt(item.Panels),
+      prix: parseFloat(item.Prix),
+      mensualite: parseFloat(item.Mensualite),
+      taeg: parseFloat(item.Taeg),
+      total: parseFloat(item.Total)
+    }));
+  })
+  .catch(error => {
+    console.error("Erreur lors du chargement des scénarios :", error);
+    alert("Erreur lors du chargement des données du simulateur.");
+  });
 
-      <!-- FINANCEMENT -->
-      <div class="section">
-        <h2>Financement</h2>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Situation Monsieur</label>
-            <select name="situation_mr">
-              <option value="cdi">CDI</option>
-              <option value="cdd">CDD</option>
-              <option value="interimaire">Interimaire</option>
-              <option value="retraite">Retraité</option>
-              <option value="sans_emploi">Sans emploi</option>
-              <option value="auto_entrepreneur">Auto-entrepreneur</option>
-              <option value="independant">Indépendant</option>
-              <option value="etudiant">Étudiant</option>
-              <option value="fonctionnaire">Fonctionnaire</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Situation Madame</label>
-            <select name="situation_mme">
-              <option value="cdi">CDI</option>
-              <option value="cdd">CDD</option>
-              <option value="interimaire">Interimaire</option>
-              <option value="retraite">Retraité</option>
-              <option value="sans_emploi">Sans emploi</option>
-              <option value="auto_entrepreneur">Auto-entrepreneur</option>
-              <option value="independant">Indépendant</option>
-              <option value="etudiant">Étudiant</option>
-              <option value="fonctionnaire">Fonctionnaire</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Salaire couple (€)</label>
-            <input type="number" name="salaire_couple">
-          </div>
-          <div class="form-group">
-            <label>Nombre d'enfants à charge</label>
-            <input type="number" name="nb_enfants">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Crédit en cours</label>
-            <select name="credit_cours">
-              <option>Oui</option>
-              <option>Non</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Montants mensualité des crédits (€)</label>
-            <input type="number" name="mensualite_credit">
-          </div>
-        </div>
-      </div>
 
-      <!-- RDV -->
-      <div class="section">
-        <h2>Rendez-vous</h2>
-        <div class="form-group datetime-group">
-          <label>Date et Heure du RDV</label>
-          <input type="date" name="date_rdv">
-          <select name="heure_rdv">
-            <option value="" disabled selected>Sélectionnez une heure</option>
-            <option value="08:00">08:00</option>
-            <option value="08:15">08:15</option>
-            <option value="08:30">08:30</option>
-            <option value="08:45">08:45</option>
-            <option value="09:00">09:00</option>
-            <option value="09:15">09:15</option>
-            <option value="09:30">09:30</option>
-            <option value="09:45">09:45</option>
-            <option value="10:00">10:00</option>
-            <option value="10:15">10:15</option>
-            <option value="10:30">10:30</option>
-            <option value="10:45">10:45</option>
-            <option value="11:00">11:00</option>
-            <option value="11:15">11:15</option>
-            <option value="11:30">11:30</option>
-            <option value="11:45">11:45</option>
-            <option value="12:00">12:00</option>
-            <option value="12:15">12:15</option>
-            <option value="12:30">12:30</option>
-            <option value="12:45">12:45</option>
-            <option value="13:00">13:00</option>
-            <option value="13:15">13:15</option>
-            <option value="13:30">13:30</option>
-            <option value="13:45">13:45</option>
-            <option value="14:00">14:00</option>
-            <option value="14:15">14:15</option>
-            <option value="14:30">14:30</option>
-            <option value="14:45">14:45</option>
-            <option value="15:00">15:00</option>
-            <option value="15:15">15:15</option>
-            <option value="15:30">15:30</option>
-            <option value="15:45">15:45</option>
-            <option value="16:00">16:00</option>
-            <option value="16:15">16:15</option>
-            <option value="16:30">16:30</option>
-            <option value="16:45">16:45</option>
-            <option value="17:00">17:00</option>
-            <option value="17:15">17:15</option>
-            <option value="17:30">17:30</option>
-            <option value="17:45">17:45</option>
-            <option value="18:00">18:00</option>
-            <option value="18:15">18:15</option>
-            <option value="18:30">18:30</option>
-            <option value="18:45">18:45</option>
-            <option value="19:00">19:00</option>
-            <option value="19:15">19:15</option>
-            <option value="19:30">19:30</option>
-          </select>
-        </div>
-        <div class="form-group checkbox-group">
-          <label><input type="checkbox" name="presence_rdv" value="homme_seul"> Homme seul</label>
-          <label><input type="checkbox" name="presence_rdv" value="femme_seule"> Femme seule</label>
-          <label><input type="checkbox" name="presence_rdv" value="couple_present"> Le couple présent</label>
-        </div>
-      </div>
+      document.getElementById("simuler").addEventListener("click", function calculerSimulation() {
+        const conso = parseFloat(document.getElementById('conso').value);
+        const facture = parseFloat(document.getElementById('facture').value);
 
-      <!-- COMMENTAIRES -->
-      <div class="section">
-        <h2>Commentaires</h2>
-        <div class="form-group">
-          <label>Commentaires</label>
-          <textarea name="commentaires" rows="5"></textarea>
-        </div>
-        <div class="form-group">
-          <label>Télépro</label>
-          <input type="text" name="telepro">
-        </div>
-      </div>
+        if (isNaN(conso) || isNaN(facture) || conso <= 0 || facture <= 0) {
+          alert("Merci de remplir correctement les deux champs.");
+          return;
+        }
 
-      <button type="submit" class="submit-btn">Enregistrer</button>
-    </form>
-  </div>
+        const prixKwh = facture / conso;
+        const scenario = [...scenarios].reverse().find(s => s.prod <= conso) || scenarios[0];
+        scenarios.reverse();
 
-  <!-- SCRIPT D'ENVOI DES DONNÉES VERS GOOGLE SHEETS -->
-  <script>
-    const form = document.getElementById("crm-form");
+        const autoKwh = scenario.prod * 0.6;
+        const stockKwh = scenario.prod * 0.4;
+        const acheminement = 0.05;
 
-    form.addEventListener("submit", async function(event) {
-      event.preventDefault(); // Empêche le rechargement de la page
+        const factureAvant = conso * prixKwh;
+        const autoValue = autoKwh * prixKwh;
+        const stockValue = stockKwh * prixKwh;
+        const coutAcheminement = stockKwh * acheminement;
+        const factureApres = factureAvant - autoValue - stockValue + coutAcheminement;
+        const economieAnnuelle = factureAvant - factureApres;
+        const economieAnnuelleCorrigee = Math.min(economieAnnuelle, facture);
+        const economieMensuelle = economieAnnuelleCorrigee / 12;
 
-      // Récupération des champs simples
-      const payload = {
-        nom: form.elements["nom"].value,
-        prenom: form.elements["prenom"].value,
-        telephone: form.elements["telephone"].value,
-        mail: form.elements["mail"].value,
-        adresse: form.elements["adresse"].value,
-        code_postal: form.elements["code_postal"].value,
-        ville: form.elements["ville"].value,
-        proprietaire: form.elements["proprietaire"].value,
-        occupant: form.elements["occupant"].value,
-        surface: form.elements["surface"].value,
-        facture_gaz: form.elements["facture_gaz"].value,
-        facture_fioul: form.elements["facture_fioul"].value,
-        facture_elec: form.elements["facture_elec"].value,
-        phase: form.elements["phase"].value,
-        linky: form.elements["linky"].value,
-        toiture: form.elements["toiture"].value,
-        orientation: form.elements["orientation"].value,
-        zone_bf: form.elements["zone_bf"].value,
-        rfr: form.elements["rfr"].value,
-        nb_foyer: form.elements["nb_foyer"].value,
-        situation_mr: form.elements["situation_mr"].value,
-        situation_mme: form.elements["situation_mme"].value,
-        salaire_couple: form.elements["salaire_couple"].value,
-        nb_enfants: form.elements["nb_enfants"].value,
-        credit_cours: form.elements["credit_cours"].value,
-        mensualite_credit: form.elements["mensualite_credit"].value,
-        date_rdv: form.elements["date_rdv"].value.trim() === "" ? "LEAD" : form.elements["date_rdv"].value,
-        heure_rdv: form.elements["heure_rdv"].value,
-        commentaires: form.elements["commentaires"].value,
-        telepro: form.elements["telepro"].value
-      };
+        let gain15ans = 0;
+        let prixActuel = prixKwh;
+        for (let i = 0; i < 15; i++) {
+          const autoVal = autoKwh * prixActuel;
+          const stockVal = stockKwh * prixActuel;
+          const coutAch = stockKwh * acheminement;
+          const factureAv = conso * prixActuel;
+          const factureAp = factureAv - autoVal - stockVal + coutAch;
+          const economie = factureAv - factureAp;
+          gain15ans += economie;
+          prixActuel *= 1.05;
+        }
+       document.getElementById('recap').style.display = 'block';
+document.getElementById('resultat').style.display = 'block';
+document.getElementById('blocMail').style.display = 'block';
+document.getElementById('blocImagePV').style.display = 'block';
 
-      // Récupération des valeurs des checkboxes "presence_rdv"
-      const presenceRdvElements = document.querySelectorAll('input[name="presence_rdv"]:checked');
-      const presence_rdv_values = [];
-      presenceRdvElements.forEach((checkbox) => {
-        presence_rdv_values.push(checkbox.value);
+
+
+document.getElementById('recap').innerHTML = `
+  <p>Votre consommation annuelle actuelle : ${conso.toLocaleString('fr-FR')} kWh</p>
+  <p>Votre facture annuelle actuelle : ${facture.toLocaleString('fr-FR')} €</p>
+  <p>Prix du kWh : ${prixKwh.toFixed(3)} €</p>
+  <p>Avec une puissance installée de : ${scenario.puissance} — ${scenario.panels} panneaux photovoltaïques de 500 W</p>
+  <p>Production annuelle estimée : ${scenario.prod.toLocaleString('fr-FR')} kWh</p>
+  <p>Autoconsommation : ${autoKwh.toLocaleString('fr-FR')} kWh (60 %)</p>
+  <p>Surplus valorisé via batterie virtuelle : ${stockKwh.toLocaleString('fr-FR')} kWh (40 %)</p>`;
+
+
+
+        document.getElementById('resultat').innerHTML = `
+          <p><strong>Puissance recommandée :</strong> ${scenario.puissance}</p>
+          <p><strong>Gain estimé la 1ère année :</strong> ${Math.round(economieAnnuelleCorrigee).toLocaleString('fr-FR')} €<br>
+          <span style="font-weight: normal;">soit environ ${Math.round(economieMensuelle).toLocaleString('fr-FR')} € par mois</span></p>
+          <p><strong>Économie cumulée sur 15 ans :</strong> ${Math.round(gain15ans).toLocaleString('fr-FR')} €</p>
+          <p>✅ <em>Voici l’économie réalisable grâce à l’autoconsommation solaire et au stockage virtuel. Et ce n’est qu’une première estimation ! Une étude gratuite et personnalisée peut maintenant affiner votre gain réel selon votre toiture.</em></p>`;
+
+        afficherBlocFinancement(scenario, economieMensuelle, gain15ans);
+              document.querySelector("#blocMail form").addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        const email = this.querySelector('input[type="email"]').value;
+        const telephone = this.querySelector('input[type="tel"]').value;
+
+        const payload = {
+          codePostal: document.getElementById("codePostal").value,
+          conso: parseFloat(document.getElementById("conso").value),
+          facture: parseFloat(document.getElementById("facture").value),
+          production: scenario.prod,
+          economieAnnuelle: Math.round(economieAnnuelleCorrigee),
+          economieMensuelle: Math.round(economieMensuelle),
+          gain15ans: Math.round(gain15ans),
+          puissance: scenario.puissance,
+          panels: scenario.panels,
+          prix: scenario.prix,
+          mensualite: scenario.mensualite,
+          taeg: scenario.taeg,
+          total: scenario.total,
+          email: email,
+          telephone: telephone
+        };
+
+fetch("https://script.google.com/macros/s/AKfycbwhlyD_FMMm2g9JIQAm2Se2xehUqIM2MzWMl1YGl_gP1DJKM_-jZFj_YStDMhWi-0F8XA/exec", {
+  method: "POST",
+  mode: "no-cors", // ✅ AJOUT OBLIGATOIRE POUR GITHUB
+  body: JSON.stringify(payload),
+  headers: {
+    "Content-Type": "application/json"
+  }
+})
+.then(res => {
+  alert("✅ Votre estimation a bien été transmise.");
+})
+.catch(err => {
+  console.error("Erreur lors de l'envoi vers Sheets :", err);
+  alert("❌ Une erreur est survenue. Merci de réessayer.");
+});
+
       });
-      payload.presence_rdv = presence_rdv_values;
 
-      // Récupération des valeurs des checkboxes "chauffage"
-      const chauffageElements = document.querySelectorAll('input[name="chauffage"]:checked');
-      const chauffage_values = [];
-      chauffageElements.forEach((checkbox) => {
-        chauffage_values.push(checkbox.value);
       });
-      payload.chauffage = chauffage_values;
-
-      // URL de votre script Apps Script (publié en "Tout le monde, même anonyme")
-      const scriptURL = "https://script.google.com/macros/s/AKfycbz1hzYAyOYw1k2F_YV7TXDbOlkMuLAHhWOq6uvqs3K12BCaEJOdfYkn93tTRK_gXrEvnA/exec";
-
-      try {
-        await fetch(scriptURL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(payload)
-        });
-
-        alert("Données envoyées !");
-        form.reset();
-      } catch (error) {
-        alert("Erreur lors de l'envoi : " + error);
-      }
     });
   </script>
 </body>
